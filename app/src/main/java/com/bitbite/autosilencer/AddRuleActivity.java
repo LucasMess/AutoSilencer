@@ -28,11 +28,12 @@ public class AddRuleActivity extends AppCompatActivity {
         setTitle("Add a new rule");
 
         Spinner actionSpinner = (Spinner)findViewById(R.id.action_spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, actions);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, actions);
+
         actionSpinner.setAdapter(adapter);
 
         Spinner ringerSpinner = (Spinner)findViewById(R.id.ringer_spinner);
-        ArrayAdapter<String> ringerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ringers);
+        ArrayAdapter<String> ringerAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, ringers);
         ringerSpinner.setAdapter(ringerAdapter);
 
         InitializeWifiInputBox();

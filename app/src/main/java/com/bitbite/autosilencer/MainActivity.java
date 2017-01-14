@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String[] testValues = new String[]{"hi", "cool", "testing!"};
+        String[] testValues = new String[]{"hi!", "cool", "testing!", "cool","cool","cool","cool","cool","cool","cool","cool","cool","cool","cool","cool"};
         final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < testValues.length; i++){
             list.add(testValues[i]);

@@ -32,19 +32,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="#c0c0c0"
-        android:id="@+id/view"
-        android:layout_below="@+id/warningText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="24dp" />
 
     <TextView
         android:text="Wifi Name"
-        android:textSize="50px"
+        style="@android:style/TextAppearance.DeviceDefault.Large"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,20 +60,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:text="Change Ringer To"
-        android:textSize="50px"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/changeRingerLabel"
-        android:layout_below="@+id/view"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="23dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -101,25 +78,29 @@
         android:layout_alignParentStart="true" />
 
     <TextView
+        android:text="Change Ringer To"
+        style="@android:style/TextAppearance.DeviceDefault.Large"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/changeRingerLabel"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/warningText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
         android:text="Action"
-        android:textSize="50px"
+        style="@android:style/TextAppearance.DeviceDefault.Large"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/actionLabel"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:layout_marginTop="51dp"
+        android:layout_marginTop="19dp"
         android:layout_below="@+id/ringer_spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="#c0c0c0"
-        android:id="@+id/view2"
-        android:layout_marginTop="24dp"
-        android:layout_below="@+id/ringer_spinner"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
