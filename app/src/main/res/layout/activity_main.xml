@@ -15,23 +15,36 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <Switch
+        android:background="#668cff"
+        android:text="Disable all rules"
+        android:textColor="#ffffff"
+        style="@android:style/TextAppearance.DeviceDefault.Medium"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/disableSwitch"
+        android:padding="20dp"
+        android:layout_gravity="bottom|center_horizontal"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="top|center_horizontal" />
+
+    <include
+        layout="@layout/content_main"
+        android:id="@+id/include" />
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_rule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@mipmap/ic_launcher"
         app:backgroundTint="@android:color/holo_blue_dark"
-        app:layout_anchorGravity="bottom|right" />
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|right"
+        android:layout_gravity="top|left" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
 
 </android.support.design.widget.CoordinatorLayout>

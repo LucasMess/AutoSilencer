@@ -1,6 +1,7 @@
 package com.bitbite.autosilencer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +15,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 public class AddRuleActivity extends AppCompatActivity {
 
-    private String[] actions = {"On WiFi Disconnect", "On Wifi Connect"};
+    private String[] actions = {"On WiFi Disconnect", "On WiFi Connect"};
     private String[] ringers = {"Silent", "Vibrate", "Sound"};
     private String[] networksInRange;
 
@@ -99,6 +109,8 @@ public class AddRuleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AddNewRule();
+                Intent intent = new Intent(view.getContext() ,MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -114,8 +126,46 @@ public class AddRuleActivity extends AppCompatActivity {
         //TODO: Check for valid rule and existing rules.
 
         MainActivity.rules.add(rule);
+        MainActivity.ruleListAdapter.notifyDataSetChanged();
 
-        MainActivity.SaveRules();
+        SaveRules();
+
     }
+
+    public static String FILE_NAME = "saved_rules";
+    // Saves the current rules to a text file in the device's internal storage.
+    public void SaveRules(){
+        // Convert the current rules into a text file.
+        StringBuilder text = new StringBuilder();
+
+        text.append("autosilencer_1\n");
+
+        for (int i = 0; i < MainActivity.rules.size(); i++){
+            text.append(MainActivity.rules.get(i).wifiName);
+            text.append("\n");
+            text.append(MainActivity.rules.get(i).desiredRingerMode);
+            text.append("\n");
+            text.append(MainActivity.rules.get(i).desiredTriggerAction);
+            text.append("\n");
+        }
+
+        text.append("===END===");
+
+        // Save file to device.
+        try {
+            FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            fos.write(text.toString().getBytes());
+            fos.close();
+        }
+        catch (FileNotFoundException e){
+
+        }
+        catch (IOException e){
+
+        }
+
+    }
+
+
 
 }

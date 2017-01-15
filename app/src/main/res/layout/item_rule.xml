@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:padding="20px">
+
+    <TextView
+        android:id="@+id/ruleWifiName"
+        style="@android:style/TextAppearance.DeviceDefault.Medium"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wifi Name" />
+
+    <TextView
+        android:id="@+id/ruleAction"
+        style="@android:style/TextAppearance.DeviceDefault.Small"
+        android:layout_below="@id/ruleWifiName"
+        android:paddingLeft="50px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rule Action" />
+
+</RelativeLayout>
