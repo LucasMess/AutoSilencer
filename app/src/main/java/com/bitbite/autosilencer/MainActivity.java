@@ -1,7 +1,9 @@
 package com.bitbite.autosilencer;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -55,8 +57,22 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.rules_list);
         listView.setAdapter(ruleListAdapter);
 
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                final String action = intent.getAction();
+                if (action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
+                    Log.d("NETWORKCHANGE", "network changed");
+                    SilencerService.startActionCheckConnectivity(context,"BLAH","COOL");
+                }
+            }
+        };
 
-        SilencerService.startActionCheckConnectivity(this,"BLAH","COOL");
+        IntentFilter intentFilter = new IntentFilter();
+        //intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+        registerReceiver(broadcastReceiver, intentFilter);
+
     }
 
     // Looks for the file with the saved rules on the device's storage.

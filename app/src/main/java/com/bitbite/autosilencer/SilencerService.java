@@ -64,7 +64,6 @@ public class SilencerService extends IntentService {
      */
     private void handleActionFoo(String param1, String param2) {
 
-        while (true) {
             WifiManager wifiMgr = (WifiManager)this.getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
             String ssid = wifiInfo.getSSID();
@@ -114,8 +113,6 @@ public class SilencerService extends IntentService {
                     }
                 }
             }
-            SystemClock.sleep(1000);
-        }
     }
 
     private String RemoveQuotationMarks(String string){
