@@ -9,6 +9,8 @@ import android.net.wifi.WifiManager;
 import android.os.SystemClock;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
@@ -66,16 +68,62 @@ public class SilencerService extends IntentService {
             WifiManager wifiMgr = (WifiManager)this.getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
             String ssid = wifiInfo.getSSID();
+            ssid = RemoveQuotationMarks(ssid);
             Log.d("CONNECT" , ssid);
             AudioManager audiomanager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-            if (ssid.equals("\"308 Green\"")) {
-                audiomanager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+
+            ArrayList<Rule> rules = MainActivity.rules;
+            boolean foundRuleOnConnect = false;
+            for (int i = 0; i < rules.size(); i++){
+                if (rules.get(i).wifiName.equals(ssid)){
+                    if (rules.get(i).desiredTriggerAction.equals("On WiFi Connect")) {
+                        switch (rules.get(i).desiredRingerMode) {
+                            case "Vibrate":
+                                audiomanager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+                                break;
+                            case "Sound":
+                                audiomanager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                                break;
+                            case "Silent":
+                                audiomanager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                                break;
+                        }
+                        foundRuleOnConnect = true;
+                        break;
+                    }
+                }
             }
-            else
-            {
-                audiomanager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+
+            if (!foundRuleOnConnect){
+                for (int i = 0; i < rules.size(); i++){
+                    if (!rules.get(i).wifiName.equals(ssid)){
+                        if (rules.get(i).desiredTriggerAction.equals("On WiFi Disconnect")) {
+                            switch (rules.get(i).desiredRingerMode) {
+                                case "Vibrate":
+                                    audiomanager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+                                    break;
+                                case "Sound":
+                                    audiomanager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                                    break;
+                                case "Silent":
+                                    audiomanager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
             }
-            SystemClock.sleep(1000 * 60 * 5);
+            SystemClock.sleep(1000);
         }
     }
+
+    private String RemoveQuotationMarks(String string){
+        if (string.length() < 2) return string;
+        if (string.charAt(0) == '\"' && string.charAt(string.length() - 1) == '\"'){
+            return string.substring(1,string.length() - 1);
+        }
+        return string;
+    }
+
 }

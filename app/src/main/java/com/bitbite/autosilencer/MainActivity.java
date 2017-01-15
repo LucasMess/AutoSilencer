@@ -46,17 +46,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        SilencerService.startActionCheckConnectivity(this,"BLAH","COOL");
-//        AudioManager audiomanage = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-//        if (list.contains("\"308 Green\"")) {
-//            audiomanage.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-//        }
-//        else
-//        {
-//            audiomanage.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-//        }
-
         if (rules.isEmpty()){
             GetSavedRules();
         }
@@ -65,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         ListView listView = (ListView)findViewById(R.id.rules_list);
         listView.setAdapter(ruleListAdapter);
+
+
+        SilencerService.startActionCheckConnectivity(this,"BLAH","COOL");
     }
 
     // Looks for the file with the saved rules on the device's storage.
