@@ -3,6 +3,7 @@ package com.bitbite.autosilencer;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -52,7 +53,7 @@ public class SilencerService extends IntentService {
             if (ACTION_CHECKCONNECTIVITY.equals(action)) {
                 final String param1 = intent.getStringExtra(EXTRA_PARAM1);
                 final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
+                changeRinger(param1, param2);
             }
         }
     }
@@ -61,7 +62,12 @@ public class SilencerService extends IntentService {
      * Handle action Foo in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionFoo(String param1, String param2) {
+    private void changeRinger(String param1, String param2) {
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
+                getString(R.string.AS_preferences), getApplicationContext().MODE_PRIVATE);
+        String active = sharedPref.getString(getString(R.string.AS_isActive),"true");
+        Log.d("SilencerService", "Is active? " + active);
+        if (active.equals("false")) return;
 
             WifiManager wifiMgr = (WifiManager)this.getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiMgr.getConnectionInfo();

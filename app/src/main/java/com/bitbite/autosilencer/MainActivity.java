@@ -1,12 +1,16 @@
 package com.bitbite.autosilencer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import java.util.ArrayList;
 
@@ -52,6 +56,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Switch isAppActive = (Switch)findViewById(R.id.disableSwitch);
+        isAppActive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
+                        getString(R.string.AS_preferences), getApplicationContext().MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                if (buttonView.isChecked()) {
+                    Log.d("Main", "Changing to false");
+                    editor.putString(getString(R.string.AS_isActive), "false");
+                    editor.apply();
+                }else{
+                    Log.d("Main", "Changing to true");
+                    editor.putString(getString(R.string.AS_isActive), "true");
+                    editor.apply();
+                }
+                String active = sharedPref.getString(getString(R.string.AS_isActive),"true");
+                Log.d("Main", "Is active? " + active);
+                SilencerService.startActionCheckConnectivity(getApplicationContext(),"BLAH","COOL");
+            }});
 
         startService(new Intent(this, StayAliveService.class));
 
