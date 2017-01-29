@@ -6,7 +6,6 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.SystemClock;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -71,7 +70,16 @@ public class SilencerService extends IntentService {
             Log.d("CONNECT" , ssid);
             AudioManager audiomanager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
-            ArrayList<Rule> rules = MainActivity.rules;
+            RuleManager ruleManager = new RuleManager();
+            ArrayList<Rule> rules = ruleManager.getSavedRules(getApplicationContext());
+
+            if (rules.size() == 0)
+            {
+                Log.d("SilencerService", "No rules found. Setting ringer to silent to prevent disturbances.");
+                audiomanager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+                return;
+            }
+
             boolean foundRuleOnConnect = false;
             for (int i = 0; i < rules.size(); i++){
                 if (rules.get(i).wifiName.equals(ssid)){

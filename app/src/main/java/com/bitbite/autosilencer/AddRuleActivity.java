@@ -128,41 +128,8 @@ public class AddRuleActivity extends AppCompatActivity {
         MainActivity.rules.add(rule);
         MainActivity.ruleListAdapter.notifyDataSetChanged();
 
-        SaveRules();
-
-    }
-
-    public static String FILE_NAME = "saved_rules";
-    // Saves the current rules to a text file in the device's internal storage.
-    public void SaveRules(){
-        // Convert the current rules into a text file.
-        StringBuilder text = new StringBuilder();
-
-        text.append("autosilencer_1\n");
-
-        for (int i = 0; i < MainActivity.rules.size(); i++){
-            text.append(MainActivity.rules.get(i).wifiName);
-            text.append("\n");
-            text.append(MainActivity.rules.get(i).desiredRingerMode);
-            text.append("\n");
-            text.append(MainActivity.rules.get(i).desiredTriggerAction);
-            text.append("\n");
-        }
-
-        text.append("===END===");
-
-        // Save file to device.
-        try {
-            FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-            fos.write(text.toString().getBytes());
-            fos.close();
-        }
-        catch (FileNotFoundException e){
-
-        }
-        catch (IOException e){
-
-        }
+        RuleManager ruleManager = new RuleManager();
+        ruleManager.SaveRules(getApplicationContext(), MainActivity.rules);
 
     }
 
