@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static ArrayList<Rule> rules = new ArrayList<>();
     public static RuleListAdapter ruleListAdapter;
-
+    public static Rule selectedRule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +55,17 @@ public class MainActivity extends AppCompatActivity {
 
         ruleListAdapter = new RuleListAdapter(this, android.R.layout.simple_list_item_1, rules);
 
-        ListView listView = (ListView)findViewById(R.id.rules_list);
+        final ListView listView = (ListView)findViewById(R.id.rules_list);
         listView.setAdapter(ruleListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object o = listView.getItemAtPosition(position);
+                selectedRule = (Rule)o;
+                Intent intent = new Intent(view.getContext(), rule_detail.class);
+                startActivity(intent);
+            }
+        });
 
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -72,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         //intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
         intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
         registerReceiver(broadcastReceiver, intentFilter);
+
 
     }
 

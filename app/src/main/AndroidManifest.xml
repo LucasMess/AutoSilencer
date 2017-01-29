@@ -29,7 +29,8 @@
             android:name=".SilencerService"
             android:exported="false" />
 
-        <activity android:name=".AddRuleActivity"></activity>
+        <activity android:name=".AddRuleActivity" />
+        <activity android:name=".rule_detail"></activity>
     </application>
 
 </manifest>
