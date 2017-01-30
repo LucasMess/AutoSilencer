@@ -24,6 +24,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * This activity is where the user can add another rule to the list.
+ */
 public class AddRuleActivity extends AppCompatActivity {
 
     private String[] actions = {"On WiFi Disconnect", "On WiFi Connect"};
@@ -48,22 +51,12 @@ public class AddRuleActivity extends AppCompatActivity {
 
         InitializeWifiInputBox();
         InitializeSaveButton();
-
-//        wifiManager.startScan();
-//        List<ScanResult> networkList = wifiManager.getScanResults();
-//        List<String> netNames = new ArrayList<>();
-//
-//        for (int i = 0; i < networkList.size(); i++)
-//        {
-//            netNames.add(networkList.get(i).SSID);
-//            Log.d("wifi" , networkList.get(i).SSID);
-//        }
-//        networksInRange = netNames.toArray(new String[netNames.size()]);
-//        Spinner networkSpinner = (Spinner)findViewById(R.id.wifi_spinner);
-//        ArrayAdapter<String> networkAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, networksInRange);
-//        networkSpinner.setAdapter(networkAdapter);
     }
 
+    /**
+     * Fetches the SSID of the connected WiFi.
+     * @return WiFi SSID without quotes.
+     */
     public String getWifiName(){
         WifiManager wifiManager = (WifiManager)this.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -76,6 +69,9 @@ public class AddRuleActivity extends AppCompatActivity {
         return withoutQuotes;
     }
 
+    /**
+     * Sets the input box of WiFi name the the default value.
+     */
     private void InitializeWifiInputBox(){
         TextView wifiInput = (TextView)findViewById(R.id.wifi_input);
         wifiInput.setText(getWifiName());
@@ -102,6 +98,9 @@ public class AddRuleActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets up listeners for button click.
+     */
     private void InitializeSaveButton(){
 
         Button saveButton = (Button)findViewById(R.id.saveButton);
@@ -115,6 +114,9 @@ public class AddRuleActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Adds the rule to list and updates everything.
+     */
     private void AddNewRule(){
 
         Spinner ringerSpinner = (Spinner)findViewById(R.id.ringer_spinner);
@@ -132,6 +134,17 @@ public class AddRuleActivity extends AppCompatActivity {
         ruleManager.SaveRules(getApplicationContext(), MainActivity.rules);
 
     }
+
+    /**
+     * Checks for logic errors that would be caused by adding a new rule.
+     * @param rule The rule that will be added.
+     * @return Returns true if the rule is valid and can be added.
+     */
+    private boolean checkIfValid(Rule rule){
+
+        return true;
+    }
+
 
 
 

@@ -44,7 +44,7 @@
 
     <Button
         android:text="Delete"
-        android:background="#f4424b"
+        android:background="@color/colorAccent"
         android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

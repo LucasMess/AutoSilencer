@@ -16,9 +16,9 @@
     </android.support.design.widget.AppBarLayout>
 
     <Switch
-        android:background="#668cff"
+        android:background="#d8d8d8"
         android:text="Disable all rules"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         style="@android:style/TextAppearance.DeviceDefault.Medium"
 
         android:layout_width="match_parent"
@@ -39,8 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@mipmap/ic_launcher"
-        app:backgroundTint="@android:color/holo_blue_dark"
+        app:srcCompat="@mipmap/add_button"
+        app:backgroundTint="@color/colorAccent"
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="bottom|right"
         android:layout_gravity="top|left" />
