@@ -1,9 +1,12 @@
 package com.bitbite.autosilencer;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.preference.DialogPreference;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -107,31 +110,50 @@ public class AddRuleActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddNewRule();
-                Intent intent = new Intent(view.getContext() ,MainActivity.class);
-                startActivity(intent);
-            }
-        });
+                if (AddNewRule()) {
+                    Intent intent = new Intent(view.getContext() ,MainActivity.class);
+                    startActivity(intent);
+                }
+        }});
     }
 
     /**
      * Adds the rule to list and updates everything.
      */
-    private void AddNewRule(){
+    private boolean AddNewRule(){
 
         Spinner ringerSpinner = (Spinner)findViewById(R.id.ringer_spinner);
         Spinner actionSpinner = (Spinner)findViewById(R.id.action_spinner);
         EditText wifiName = (EditText)findViewById(R.id.wifi_input);
 
-        Rule rule = new Rule(wifiName.getText().toString(), (String)ringerSpinner.getSelectedItem(), (String)actionSpinner.getSelectedItem());
+        // Prevent space at the end of the name.
+        String name = wifiName.getText().toString();
+        if (name.charAt(name.length() - 1) == ' '){
+            name = name.substring(0,name.length() - 1);
+        }
 
+        Rule rule = new Rule(name, (String)ringerSpinner.getSelectedItem(), (String)actionSpinner.getSelectedItem());
         //TODO: Check for valid rule and existing rules.
+        if (!checkIfValid(rule)){
+            AlertDialog alertDialog = new AlertDialog.Builder(AddRuleActivity.this).setTitle("Invalid rule")
+                    .setMessage("This rule interferes with an existing rule!")
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    }).create();
+            alertDialog.show();
+            return false;
+        }
+        else {
 
-        MainActivity.rules.add(rule);
-        MainActivity.ruleListAdapter.notifyDataSetChanged();
+            MainActivity.rules.add(rule);
+            MainActivity.ruleListAdapter.notifyDataSetChanged();
 
-        RuleManager ruleManager = new RuleManager();
-        ruleManager.SaveRules(getApplicationContext(), MainActivity.rules);
+            RuleManager ruleManager = new RuleManager();
+            ruleManager.SaveRules(getApplicationContext(), MainActivity.rules);
+            return true;
+        }
 
     }
 
@@ -141,6 +163,14 @@ public class AddRuleActivity extends AppCompatActivity {
      * @return Returns true if the rule is valid and can be added.
      */
     private boolean checkIfValid(Rule rule){
+
+        ArrayList<Rule> rules = MainActivity.rules;
+        for (int i = 0; i < rules.size(); i++){
+            if (rule.wifiName.equals(rules.get(i).wifiName)){
+                if (rule.desiredTriggerAction.equals(rules.get(i).desiredTriggerAction))
+                    return false;
+            }
+        }
 
         return true;
     }

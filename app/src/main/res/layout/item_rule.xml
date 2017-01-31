@@ -11,13 +11,14 @@
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
         android:text="Wifi Name" />
 
     <TextView
         android:id="@+id/ruleAction"
         style="@android:style/TextAppearance.DeviceDefault.Small"
         android:layout_below="@id/ruleWifiName"
-        android:paddingLeft="50px"
+        android:paddingLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Rule Action" />

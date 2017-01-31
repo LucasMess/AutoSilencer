@@ -49,8 +49,8 @@ public class RuleListAdapter extends ArrayAdapter<Rule> {
                     StringBuilder text = new StringBuilder();
                     text.append("Set ringer to " + p.desiredRingerMode.toLowerCase() + " when ");
                     if (p.desiredTriggerAction.equals("On WiFi Disconnect")){
-                        text.append("disconnected from this WiFi");
-                    }else text.append("connected to this WiFi");
+                        text.append("disconnected");
+                    }else text.append("connected");
 
                     tt2.setText(text);
                 }

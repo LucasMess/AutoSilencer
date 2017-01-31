@@ -32,8 +32,8 @@ public class rule_detail extends AppCompatActivity {
         StringBuilder text = new StringBuilder();
         text.append("Set ringer to " + MainActivity.selectedRule.desiredRingerMode.toLowerCase() + " when ");
         if (MainActivity.selectedRule.desiredTriggerAction.equals("On WiFi Disconnect")){
-            text.append("disconnected from this WiFi");
-        }else text.append("connected to this WiFi");
+            text.append("disconnected");
+        }else text.append("connected");
 
         desc.setText(text);
 

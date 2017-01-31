@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
         startService(new Intent(this, StayAliveService.class));
 
+
+
 //        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 //            @Override
 //            public void onReceive(Context context, Intent intent) {
