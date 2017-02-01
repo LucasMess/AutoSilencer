@@ -1,12 +1,14 @@
 package com.bitbite.autosilencer;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -63,6 +65,19 @@ public class SilencerService extends IntentService {
      * parameters.
      */
     private void changeRinger(String param1, String param2) {
+
+        // Marshmallow permission fix. App crashes otherwise.
+        NotificationManager notificationManager =
+                (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                && !notificationManager.isNotificationPolicyAccessGranted()) {
+            Intent intent = new Intent(
+                    android.provider.Settings
+                            .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+            startActivity(intent);
+        }
+
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
                 getString(R.string.AS_preferences), getApplicationContext().MODE_PRIVATE);
         String active = sharedPref.getString(getString(R.string.AS_isActive),"true");

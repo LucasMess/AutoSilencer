@@ -61,7 +61,5 @@
         android:id="@+id/textView3"
         android:layout_below="@+id/wifiNameLabel"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
