@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AutoSilencer.iml" filepath="$PROJECT_DIR$/AutoSilencer.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/autosilencer.iml" filepath="$PROJECT_DIR$/autosilencer.iml" />
     </modules>
   </component>
 </project>

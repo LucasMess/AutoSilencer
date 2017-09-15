@@ -1,5 +1,10 @@
 package com.bitbite.autosilencer;
 
+import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,8 +16,11 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static android.app.NotificationManager.ACTION_NOTIFICATION_POLICY_CHANGED;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -97,6 +105,29 @@ public class MainActivity extends AppCompatActivity {
 //        //intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 //        intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
 //        registerReceiver(broadcastReceiver, intentFilter);
+
+        requestDoNotDisturbPermission();
+
+    }
+
+    public void requestDoNotDisturbPermission(){
+
+        // Check if app needs to ask for permissions.
+        if (!SilencerService.hasDoNotDisturbPermission(getApplicationContext())){
+            // Show an alert to the user first, telling them to grant Do Not Disturb permissions.
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("This app needs permission to change your \"Do Not Disturb\" status in order to silence your phone.\nThe following screen will ask you to enable it.");
+            alert.setTitle("Grant Permission");
+            alert.setCancelable(false);
+            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                    startActivity(intent);
+                }
+
+            });
+            alert.create().show();
+        }
 
     }
 

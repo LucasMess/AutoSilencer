@@ -1,6 +1,7 @@
 package com.bitbite.autosilencer;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -57,8 +58,15 @@ public class StayAliveService extends Service {
                     Log.d("NETWORKCHANGE", "network changed");
                     SilencerService.startActionCheckConnectivity(context,"BLAH","COOL");
                 }
+                if (action.equals(NotificationManager.ACTION_NOTIFICATION_POLICY_CHANGED)) {
+                    Log.d("BROADCAST", "Permission granted");
+                    // Delete notification requesting permission.
+                    NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+                    notificationManager.cancel(10);
+                }
             }
         };
+
 
         IntentFilter intentFilter = new IntentFilter();
         //intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
