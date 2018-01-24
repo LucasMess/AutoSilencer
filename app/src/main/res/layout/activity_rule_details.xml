@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.bitbite.autosilencer.rule_detail">
+    tools:context="com.bitbite.autosilencer.RuleDetailsActivity">
 
     <TextView
         android:text="Wifi Name"

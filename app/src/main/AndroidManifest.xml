@@ -33,7 +33,7 @@
             android:stopWithTask="false"/>
 
         <activity android:name=".AddRuleActivity" />
-        <activity android:name=".rule_detail" />
+        <activity android:name=".RuleDetailsActivity" />
 
         <service
             android:name=".StayAliveService"
@@ -42,7 +42,7 @@
             android:stopWithTask="false">
         </service>
 
-        <receiver android:name=".autoStart">
+        <receiver android:name=".AutoStartReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

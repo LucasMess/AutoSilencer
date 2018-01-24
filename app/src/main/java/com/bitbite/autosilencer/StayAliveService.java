@@ -29,19 +29,25 @@ public class StayAliveService extends Service {
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        Intent restartService = new Intent(getApplicationContext(),this.getClass());
-        restartService.setPackage(getPackageName());
-        PendingIntent restartSevicePI = PendingIntent.getService(getApplicationContext(),
-                1 , restartService, PendingIntent.FLAG_ONE_SHOT);
 
-        AlarmManager myAlarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        myAlarmService.set(
-                AlarmManager.ELAPSED_REALTIME,
-                SystemClock.elapsedRealtime() + 1000,
-                restartSevicePI);
+        // If the task is removed, first check if the user needs it to restart.
+        if (MainActivity.IsApplicationEnabled(this)){
+
+            Intent restartService = new Intent(getApplicationContext(),this.getClass());
+            restartService.setPackage(getPackageName());
+            PendingIntent restartSevicePI = PendingIntent.getService(getApplicationContext(),
+                    1 , restartService, PendingIntent.FLAG_ONE_SHOT);
+
+            AlarmManager myAlarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            myAlarmService.set(
+                    AlarmManager.ELAPSED_REALTIME,
+                    SystemClock.elapsedRealtime() + 1000,
+                    restartSevicePI);
 
 
-        Log.d("STAYALIVE", "Restarted service");
+            Log.d("STAYALIVE", "Restarted service");
+        }
+
         super.onTaskRemoved(rootIntent);
 
     }
@@ -50,27 +56,25 @@ public class StayAliveService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                final String action = intent.getAction();
-                if (action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
-                    Log.d("NETWORKCHANGE", "network changed");
-                    SilencerService.startActionCheckConnectivity(context,"BLAH","COOL");
-                }
-                if (action.equals(NotificationManager.ACTION_NOTIFICATION_POLICY_CHANGED)) {
-                    Log.d("BROADCAST", "Permission granted");
-                    // Delete notification requesting permission.
-                    NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-                    notificationManager.cancel(10);
-                }
-            }
-        };
+        // Only start the silencer service if the app is enabled.
+        if (MainActivity.IsApplicationEnabled(this)) {
 
+            // This broadcast receiver will let the silencer service know when the network changes.
+            BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    final String action = intent.getAction();
+                    if (action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
+                        Log.d("NETWORKCHANGE", "network changed");
+                        SilencerService.startActionCheckConnectivity(context);
+                    }
+                }
+            };
 
-        IntentFilter intentFilter = new IntentFilter();
-        //intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-        intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-        registerReceiver(broadcastReceiver, intentFilter);
+            // Register the receiver with Android.
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+            registerReceiver(broadcastReceiver, intentFilter);
+        }
     }
 }

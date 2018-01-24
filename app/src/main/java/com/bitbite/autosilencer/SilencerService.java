@@ -26,30 +26,17 @@ import java.util.ArrayList;
  * helper methods.
  */
 public class SilencerService extends IntentService {
-    // TODO: Rename actions, choose action names that describe tasks that this
-    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_CHECKCONNECTIVITY = "com.bitbite.autosilencer.action.checkconnectivity";
 
-    // TODO: Rename parameters
-    private static final String EXTRA_PARAM1 = "com.bitbite.autosilencer.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "com.bitbite.autosilencer.extra.PARAM2";
+    private static final String ACTION_CHECKCONNECTIVITY = "com.bitbite.autosilencer.action.checkconnectivity";
 
     public SilencerService() {
         super("SilencerService");
     }
 
-    /**
-     * Starts this service to perform action Foo with the given parameters. If
-     * the service is already performing a task this action will be queued.
-     *
-     * @see IntentService
-     */
-    // TODO: Customize helper method
-    public static void startActionCheckConnectivity(Context context, String param1, String param2) {
+
+    public static void startActionCheckConnectivity(Context context) {
         Intent intent = new Intent(context, SilencerService.class);
         intent.setAction(ACTION_CHECKCONNECTIVITY);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
         context.startService(intent);
     }
 
@@ -70,9 +57,7 @@ public class SilencerService extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_CHECKCONNECTIVITY.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                changeRinger(param1, param2);
+                changeRinger();
             }
         }
     }
@@ -100,11 +85,8 @@ public class SilencerService extends IntentService {
         notificationManager.notify(notificiationId, builder.build());
     }
 
-    /**
-     * Handle action Foo in the provided background thread with the provided
-     * parameters.
-     */
-    private void changeRinger(String param1, String param2) {
+
+    private void changeRinger() {
 
         if (!hasDoNotDisturbPermission(getApplicationContext())) {
             notifyInsufficientPermissions();

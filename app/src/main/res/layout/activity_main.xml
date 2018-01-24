@@ -4,24 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.bitbite.autosilencer.MainActivity">
-
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:expanded="false">
-
+        android:theme="@style/AppTheme.AppBarOverlay">
     </android.support.design.widget.AppBarLayout>
 
     <Switch
+        android:id="@+id/disableSwitch"
         android:background="#d8d8d8"
         android:text="Disable all rules"
         android:textColor="#000000"
@@ -29,17 +20,18 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/disableSwitch"
         android:padding="15dp"
-        android:layout_gravity="bottom|center_horizontal"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="top|center_horizontal" />
+        android:layout_alignParentTop="true">
+
+    </Switch>
 
     <include
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/disableSwitch"
         layout="@layout/content_main"
-        android:id="@+id/include" />
+         />
 
 
     <android.support.design.widget.FloatingActionButton
@@ -47,13 +39,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@mipmap/add_button"
-        app:backgroundTint="@color/colorAccent"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="bottom|right"
-        android:layout_gravity="top|left" />
+        android:src="@mipmap/add_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 
-
-</android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>
+

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -61,7 +62,7 @@ public class AddRuleActivity extends AppCompatActivity {
      * @return WiFi SSID without quotes.
      */
     public String getWifiName(){
-        WifiManager wifiManager = (WifiManager)this.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager)this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         String ssid = wifiInfo.getSSID();
         String withoutQuotes = "";
@@ -152,6 +153,8 @@ public class AddRuleActivity extends AppCompatActivity {
 
             RuleManager ruleManager = new RuleManager();
             ruleManager.SaveRules(getApplicationContext(), MainActivity.rules);
+
+            Toast.makeText(getApplicationContext(), "Rule has been saved", Toast.LENGTH_SHORT).show();
             return true;
         }
 
